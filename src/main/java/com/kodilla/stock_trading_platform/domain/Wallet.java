@@ -1,5 +1,6 @@
 package com.kodilla.stock_trading_platform.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -33,6 +34,11 @@ public class Wallet {
     private List<Transaction> transactionsList;
 
     public Wallet(User user) {
+        this.user = user;
+    }
+
+    public Wallet(@NotNull long id, @NotNull User user) {
+        this.id = id;
         this.user = user;
     }
 

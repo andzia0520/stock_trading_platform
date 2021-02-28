@@ -1,5 +1,6 @@
 package com.kodilla.stock_trading_platform.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -7,8 +8,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
-import static javax.persistence.CascadeType.REMOVE;
-
+@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
@@ -28,6 +28,8 @@ public class User {
     public User(String login) {
         this.login = login;
     }
+
+
 
     @Override
     public boolean equals(Object o) {

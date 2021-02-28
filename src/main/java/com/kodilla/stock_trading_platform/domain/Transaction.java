@@ -62,6 +62,15 @@ public class Transaction {
         this.wallet = wallet;
     }
 
+    public Transaction(@NotNull long id, TransactionType transactionType, Share share, int quantity, LocalDate transactionDate, Wallet wallet) {
+        this.id = id;
+        this.transactionType = transactionType;
+        this.share = share;
+        this.quantity = quantity;
+        this.transactionDate = transactionDate;
+        this.wallet = wallet;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
