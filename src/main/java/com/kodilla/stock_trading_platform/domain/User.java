@@ -25,11 +25,13 @@ public class User {
     @Column(name = "LOGIN")
     private String login;
 
-    public User(String login) {
+    @Column(name = "EMAIL")
+    private String email;
+
+    public User(String login, String email) {
         this.login = login;
+        this.email = email;
     }
-
-
 
     @Override
     public boolean equals(Object o) {
@@ -39,13 +41,15 @@ public class User {
         User user = (User) o;
 
         if (id != user.id) return false;
-        return login.equals(user.login);
+        if (!login.equals(user.login)) return false;
+        return email.equals(user.email);
     }
 
     @Override
     public int hashCode() {
         int result = (int) (id ^ (id >>> 32));
         result = 31 * result + login.hashCode();
+        result = 31 * result + email.hashCode();
         return result;
     }
 }

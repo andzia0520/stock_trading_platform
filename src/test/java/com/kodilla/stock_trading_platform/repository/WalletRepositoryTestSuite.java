@@ -31,8 +31,8 @@ public class WalletRepositoryTestSuite {
     @Test
     public void testShouldSaveWalletAndFindById() {
         //Given
-        User hossa = new User("hossa");
-        User bessa = new User("bessa");
+        User hossa = new User("hossa", "hossa@hossa");
+        User bessa = new User("bessa", "bessa@bessa");
         userRepository.save(hossa);
         userRepository.save(bessa);
 
@@ -59,7 +59,7 @@ public class WalletRepositoryTestSuite {
     @Test
     public void testShouldDeleteWalletWithoutUser() {
         //Given
-        User user = new User("user");
+        User user = new User("user", "user@gmail.com");
         userRepository.save(user);
         Wallet hossaWallet = new Wallet(user);
         walletRepository.save(hossaWallet);
@@ -82,7 +82,7 @@ public class WalletRepositoryTestSuite {
         //Given
         Share amazonShare = new Share("Amazon", "AMZN", new BigDecimal(2200));
         shareRepository.save(amazonShare);
-        User user = new User("user");
+        User user = new User("user", "user@gmail.com");
         userRepository.save(user);
         Wallet wallet = new Wallet(user);
         walletRepository.save(wallet);

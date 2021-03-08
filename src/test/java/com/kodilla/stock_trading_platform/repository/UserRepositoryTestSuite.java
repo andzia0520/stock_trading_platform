@@ -23,7 +23,7 @@ public class UserRepositoryTestSuite {
     @Test
     public void testShouldSaveUserAndFindById() {
         //Given
-        User user = new User("hossa");
+        User user = new User("user", "user@gmail.com");
 
         //When
         userRepository.save(user);
@@ -40,7 +40,7 @@ public class UserRepositoryTestSuite {
     @Test
     public void testShouldDeleteUser() {
         //Given
-        User user = new User("bessa");
+        User user = new User("user", "user@gmail.com");
         userRepository.save(user);
 
         //When
