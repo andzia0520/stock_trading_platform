@@ -14,7 +14,7 @@ public class ShareMapper {
         return new Share(
                 shareDto.getId(),
                 shareDto.getCompanyName(),
-                shareDto.getIndexName(),
+                shareDto.getShareSymbol(),
                 shareDto.getPrice());
     }
 
@@ -22,14 +22,14 @@ public class ShareMapper {
         return new ShareDto(
                 share.getId(),
                 share.getCompanyName(),
-                share.getIndexName(),
+                share.getShareSymbol(),
                 share.getPrice());
     }
 
     public List<ShareDto> mapToShareDtoList(final List<Share> shareList) {
         return shareList.stream()
                 .map(share -> new ShareDto(share.getId(), share.getCompanyName(),
-                        share.getIndexName(), share.getPrice()))
+                        share.getShareSymbol(), share.getPrice()))
                 .collect(Collectors.toList());
     }
 }

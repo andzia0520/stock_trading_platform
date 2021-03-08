@@ -1,6 +1,5 @@
 package com.kodilla.stock_trading_platform.domain;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -26,8 +25,8 @@ public class Share {
     @Column(name = "COMPANY_NAME")
     private String companyName;
 
-    @Column(name = "INDEX_NAME")
-    private String indexName;
+    @Column(name = "SHARE_SYMBOL")
+    private String shareSymbol;
 
     @Column(name = "PRICE")
     private BigDecimal price;
@@ -40,16 +39,16 @@ public class Share {
     )
     private List<Transaction> transactions = new ArrayList<>();
 
-    public Share(String companyName, String indexName, BigDecimal price) {
+    public Share(String companyName, String shareSymbol, BigDecimal price) {
         this.companyName = companyName;
-        this.indexName = indexName;
+        this.shareSymbol = shareSymbol;
         this.price = price;
     }
 
-    public Share(@NotNull long id, String companyName, String indexName, BigDecimal price) {
+    public Share(@NotNull long id, String companyName, String shareSymbol, BigDecimal price) {
         this.id = id;
         this.companyName = companyName;
-        this.indexName = indexName;
+        this.shareSymbol = shareSymbol;
         this.price = price;
     }
 
@@ -63,7 +62,7 @@ public class Share {
 
         if (id != share.id) return false;
         if (!companyName.equals(share.companyName)) return false;
-        if (!indexName.equals(share.indexName)) return false;
+        if (!shareSymbol.equals(share.shareSymbol)) return false;
         return price.equals(share.price);
     }
 
@@ -71,7 +70,7 @@ public class Share {
     public int hashCode() {
         int result = (int) (id ^ (id >>> 32));
         result = 31 * result + companyName.hashCode();
-        result = 31 * result + indexName.hashCode();
+        result = 31 * result + shareSymbol.hashCode();
         result = 31 * result + price.hashCode();
         return result;
     }

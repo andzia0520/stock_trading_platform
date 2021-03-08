@@ -12,18 +12,20 @@ public class UserMapper {
     public User mapToUser(final UserDto userDto) {
         return new User(
                 userDto.getId(),
-                userDto.getLogin());
+                userDto.getLogin(),
+                userDto.getEmail());
     }
 
     public UserDto mapToUserDto(final User user) {
         return new UserDto(
                 user.getId(),
-                user.getLogin());
+                user.getLogin(),
+                user.getEmail());
     }
 
     public List<UserDto> mapToUserDtoList(final List<User> usersList) {
         return usersList.stream()
-                .map(u -> new UserDto(u.getId(), u.getLogin()))
+                .map(u -> new UserDto(u.getId(), u.getLogin(), u.getEmail()))
                 .collect(Collectors.toList());
     }
 }

@@ -34,7 +34,7 @@ public class TransactionRepositoryTestSuite {
         Share amazonShare = new Share("Amazon", "AMZN", new BigDecimal(2200));
         shareRepository.save(amazonShare);
 
-        User user = new User("user");
+        User user = new User("user", "user@gmail.com");
         userRepository.save(user);
 
         Wallet wallet = new Wallet(user);
