@@ -52,10 +52,10 @@ public class UserRepositoryTestSuite {
         assertFalse(readUser.isPresent());
     }
 
-   /* @Test
+    @Test
     public void testShouldDeleteUserWithWallet() {
         //Given
-        User user = new User("user");
+        User user = new User("user", "user@gmail.com");
         userRepository.save(user);
         Wallet wallet = new Wallet(user);
         walletRepository.save(wallet);
@@ -69,9 +69,11 @@ public class UserRepositoryTestSuite {
         assertFalse(checkUser.isPresent());
         assertFalse(checkWallet.isPresent());
 
-       *//* //CleanUp
+
+        //CleanUp
         for (User input : userRepository.findAll()) {
             userRepository.deleteById(input.getId());
-        }*//*
-    }*/
+        }
+    }
+
 }

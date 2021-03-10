@@ -8,4 +8,8 @@ import lombok.Getter;
 public class WalletDto {
     private long id;
     private UserDto userDto;
+
+    public WalletDto(UserDto userDto) {
+        this.userDto = userDto;
+    }
 }

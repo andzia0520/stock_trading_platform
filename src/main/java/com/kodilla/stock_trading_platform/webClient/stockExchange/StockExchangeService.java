@@ -13,11 +13,11 @@ public class StockExchangeService {
     @Autowired
     private final StockExchangeClient stockExchangeClient;
 
-    public SharePriceResponse getSharePrice() {
-        return stockExchangeClient.getPriceForShare("AAPL");
+    public SharePriceResponse getSharePrice(String shareSymbol) {
+        return stockExchangeClient.getPriceForShare(shareSymbol);
     }
 
-    public ShareSymbolResponse getShareSymbolByName() {
-        return stockExchangeClient.getSymbolByName("tesla");
+    public ShareSymbolResponse getShareSymbolByName(String companyName) {
+        return stockExchangeClient.getSymbolByName(companyName);
     }
 }

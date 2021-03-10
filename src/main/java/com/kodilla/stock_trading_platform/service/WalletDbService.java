@@ -16,6 +16,10 @@ public class WalletDbService {
         return walletRepository.findById(walletId);
     }
 
+    public Optional<Wallet> getWalletByUser(final String login) {
+        return walletRepository.findByUser(login);
+    }
+
     public Wallet saveWallet(final Wallet wallet) {
         return walletRepository.save(wallet);
     }

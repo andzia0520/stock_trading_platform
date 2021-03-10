@@ -7,4 +7,9 @@ import lombok.Getter;
 @Builder
 public class ShareSymbolResponse {
     private String symbol;
+
+    @Override
+    public String toString() {
+        return  symbol;
+    }
 }

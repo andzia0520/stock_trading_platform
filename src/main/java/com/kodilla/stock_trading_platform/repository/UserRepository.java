@@ -17,8 +17,9 @@ public interface UserRepository extends CrudRepository<User, Long> {
     @Override
     Optional<User> findById(Long id);
 
-    @Override
-    void deleteById(Long userId);
+    //User findByEmail(String email);
+
+    void deleteByLoginOrEmail(String login, String email);
 
     @Override
     List<User> findAll();

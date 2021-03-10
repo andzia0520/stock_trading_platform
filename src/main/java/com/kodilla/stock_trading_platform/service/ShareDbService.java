@@ -25,8 +25,8 @@ public class ShareDbService {
         return shareRepository.findByCompanyName(companyName);
     }
 
-    public List<Share> getShareByIndexName(final String indexName) {
-        return shareRepository.findAllByIndexName(indexName);
+    public Optional<Share> getShareByShareSymbol(final String shareSymbol) {
+        return shareRepository.findByShareSymbol(shareSymbol);
     }
 
     public Share saveShare(final Share share) {

@@ -26,8 +26,8 @@ public class UserController {
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "deleteUser")
-    public void deleteUser(@RequestParam Long userId) {
-        userDbService.deleteUser(userId);
+    public void deleteUser(@RequestParam String login, String email) {
+        userDbService.deleteUser(login, email);
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "updateUser")

@@ -9,4 +9,9 @@ import java.math.BigDecimal;
 @Builder
 public class SharePriceResponse {
     private BigDecimal sharePrice;
+
+    @Override
+    public String toString() {
+        return sharePrice + " $ ";
+    }
 }

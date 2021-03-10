@@ -1,6 +1,7 @@
 plugins {
     id 'org.springframework.boot' version '2.4.3'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'com.vaadin' version '0.14.3.7'
     id 'java'
 }
 
@@ -10,6 +11,10 @@ sourceCompatibility = '1.8'
 
 repositories {
     mavenCentral()
+}
+
+ext {
+    set('vaadinVersion', "14.4.8")
 }
 
 dependencies {
@@ -31,7 +36,16 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-mail:1.5.7.RELEASE')
     testCompile('org.springframework.boot:spring-boot-starter-test')
 
-    test {
-        useJUnitPlatform()
+    implementation 'com.vaadin:vaadin-spring-boot-starter'
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "com.vaadin:vaadin-bom:${vaadinVersion}"
     }
 }
+
+test {
+    useJUnitPlatform()
+}
+

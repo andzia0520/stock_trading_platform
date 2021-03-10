@@ -22,8 +22,8 @@ public class WalletController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "getWallet")
-    public WalletDto getWallet(@RequestParam Long walletId) throws WalletNotFoundException {
-        return walletMapper.mapToWalletDto(walletDbService.getWalletById(walletId).orElseThrow(WalletNotFoundException::new));
+    public WalletDto getWallet(@RequestParam Long id) throws WalletNotFoundException {
+        return walletMapper.mapToWalletDto(walletDbService.getWalletById(id).orElseThrow(WalletNotFoundException::new));
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "deleteWallet")

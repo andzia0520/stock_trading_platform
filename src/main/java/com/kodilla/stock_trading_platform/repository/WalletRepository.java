@@ -20,7 +20,7 @@ public interface WalletRepository extends CrudRepository<Wallet, Long> {
     @Override
     Optional<Wallet> findById(Long id);
 
-    Optional<Wallet> findByUserId(Long userId);
+    Optional<Wallet> findByUser(String login);
 
     @Override
     void deleteById(Long walletId);
