@@ -22,7 +22,7 @@ public interface ShareRepository extends CrudRepository<Share, Long> {
 
     Optional<Share> findByCompanyName(String companyName);
 
-    List<Share> findAllByIndexName(String indexName);
+    Optional<Share> findByShareSymbol(String shareSymbol);
 
     @Override
     void deleteById(Long shareId);
