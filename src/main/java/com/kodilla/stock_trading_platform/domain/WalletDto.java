@@ -12,4 +12,6 @@ public class WalletDto {
     public WalletDto(UserDto userDto) {
         this.userDto = userDto;
     }
+
+
 }

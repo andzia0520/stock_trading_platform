@@ -1,6 +1,5 @@
 package com.kodilla.stock_trading_platform.webClient.stockExchange;
 
-//import com.kodilla.stock_trading_platform.externalData.stockExchangeApi.client.StockExchangeClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;

@@ -1,4 +1,3 @@
-/*
 package com.kodilla.stock_trading_platform.gui;
 
 import com.kodilla.stock_trading_platform.controller.UserController;
@@ -46,15 +45,13 @@ public class AccountGui extends VerticalLayout {
 
         createWalletButton.addClickListener(e -> createWallet());
 
-        */
-/*showMyWalletButton.addClickListener(e -> {
+        /*showMyWalletButton.addClickListener(e -> {
             try {
                 showWallet();
             } catch (WalletNotFoundException walletNotFoundException) {
                 walletNotFoundException.printStackTrace();
             }
-        });
-*//*
+        });*/
 
 
         add(textFieldLogin, emailField, updateButton, deleteButton, createWalletButton, showMyWalletButton);
@@ -74,11 +71,9 @@ public class AccountGui extends VerticalLayout {
         walletController.createWallet(new WalletDto(new UserDto(textFieldLogin.getValue(), emailField.getValue())));
     }
 
-    */
-/*private void showWallet() throws WalletNotFoundException {
+    /*private void showWallet() throws WalletNotFoundException {
         walletController.getWallet(walletDto.getId());
-    }*//*
+    }*/
 
 }
 
-*/

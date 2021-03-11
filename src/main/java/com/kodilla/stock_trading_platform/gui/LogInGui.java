@@ -1,4 +1,3 @@
-/*
 package com.kodilla.stock_trading_platform.gui;
 
 import com.kodilla.stock_trading_platform.controller.UserController;
@@ -52,19 +51,18 @@ public class LogInGui extends VerticalLayout {
 
         createButton.addClickListener(e -> createUser());
 
-        //idButton.addClickListener(e -> getUserId());
+        idButton.addClickListener(e -> getUserId());
 
         add(textFieldLogin, emailField, createButton, idButton, updateButton, deleteButton);
 
     }
 
-   */
-/* private void getUserId() {
-        User user = userDbService.getUserByLoginAndEmail(emailField.getValue());
+    private void getUserId() {
+        User user = userDbService.getUserByEmail(emailField.getValue());
         if (user != null) {
             idLabel.setText(String.valueOf(user.getId()));
         }
-    }*//*
+    }
 
 
     private void createUser() {
@@ -74,8 +72,9 @@ public class LogInGui extends VerticalLayout {
     }
 
 
-*/
-/*    String login = textFieldLogin.getValue();
+
+
+    /*String login = textFieldLogin.getValue();
     String email = emailField.getValue();
 
     private boolean isNotNull() {
@@ -96,9 +95,6 @@ public class LogInGui extends VerticalLayout {
                 add(alreadyRegisteredLabel);
             }
         }
-        return true;*//*
-
-
-
+        return true;
+    }*/
 }
-*/
