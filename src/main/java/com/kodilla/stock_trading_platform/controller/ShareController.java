@@ -33,8 +33,8 @@ public class ShareController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "getShareByIndex")
-    public List<ShareDto> getShareByIndex(@RequestParam String indexName) {
-        return shareMapper.mapToShareDtoList(shareDbService.getShareByIndexName(indexName));
+    public ShareDto getShareByIndex(@RequestParam String shareSymbol) throws ShareNotFoundException {
+        return shareMapper.mapToShareDto(shareDbService.getShareByShareSymbol(shareSymbol).orElseThrow(ShareNotFoundException::new));
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "createShare")
