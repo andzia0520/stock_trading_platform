@@ -25,7 +25,7 @@ public class ShareDbService {
         return shareRepository.findByCompanyName(companyName);
     }
 
-    public Optional<Share> getShareBySymbol(final String shareSymbol) {
+    public Optional<Share> getShareByShareSymbol(final String shareSymbol) {
         return shareRepository.findByShareSymbol(shareSymbol);
     }
 
