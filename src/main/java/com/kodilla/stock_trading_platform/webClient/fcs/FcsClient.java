@@ -1,4 +1,4 @@
-package com.kodilla.stock_trading_platform.webClient.marketstack;
+package com.kodilla.stock_trading_platform.webClient.fcs;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
