@@ -22,9 +22,11 @@ public class User {
     @Column(name = "ID", unique = true)
     private long id;
 
+    @NotNull
     @Column(name = "LOGIN")
     private String login;
 
+    @NotNull
     @Column(name = "EMAIL")
     private String email;
 

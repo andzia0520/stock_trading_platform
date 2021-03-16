@@ -1,8 +1,11 @@
 package com.kodilla.stock_trading_platform.controller;
 
+import com.kodilla.stock_trading_platform.domain.User;
 import com.kodilla.stock_trading_platform.domain.WalletDto;
 import com.kodilla.stock_trading_platform.mapper.WalletMapper;
 import com.kodilla.stock_trading_platform.service.WalletDbService;
+import com.kodilla.stock_trading_platform.service.WalletExsistsException;
+import com.kodilla.stock_trading_platform.service.WalletNotEmptyException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,23 +20,24 @@ public class WalletController {
     private WalletMapper walletMapper;
 
     @RequestMapping(method = RequestMethod.POST, value = "createWallet")
-    public WalletDto createWallet(@RequestBody WalletDto walletDto) {
+    public WalletDto createWallet(@RequestBody WalletDto walletDto) throws WalletExsistsException {
         return walletMapper.mapToWalletDto((walletDbService.saveWallet(walletMapper.mapToWallet(walletDto))));
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "getWallet")
-    public WalletDto getWallet(@RequestParam Long id) throws WalletNotFoundException {
-        return walletMapper.mapToWalletDto(walletDbService.getWalletById(id).orElseThrow(WalletNotFoundException::new));
+    public WalletDto getWallet(@RequestParam Long id) {
+        return walletMapper.mapToWalletDto(walletDbService.getWalletById(id));
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "getWalletByUser")
+    public WalletDto getWalletByUser(@RequestParam User user) {
+        return walletMapper.mapToWalletDto(walletDbService.getWalletByUser(user));
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "deleteWallet")
-    public void deleteWallet(@RequestParam Long walletId) {
+    public void deleteWallet(@RequestParam Long walletId) throws WalletNotEmptyException {
         walletDbService.deleteWallet(walletId);
     }
 
-    @RequestMapping(method = RequestMethod.PUT, value = "updateWallet")
-    public void updateWallet(@RequestBody WalletDto walletDto) {
-        walletDbService.saveWallet(walletMapper.mapToWallet(walletDto));
-    }
 }
 

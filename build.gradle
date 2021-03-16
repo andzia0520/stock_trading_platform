@@ -37,6 +37,7 @@ dependencies {
     testCompile('org.springframework.boot:spring-boot-starter-test')
 
     implementation 'com.vaadin:vaadin-spring-boot-starter'
+    compileOnly 'org.springframework.boot:spring-boot-devtools'
 }
 
 dependencyManagement {

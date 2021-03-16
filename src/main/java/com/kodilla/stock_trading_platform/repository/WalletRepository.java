@@ -1,5 +1,6 @@
 package com.kodilla.stock_trading_platform.repository;
 
+import com.kodilla.stock_trading_platform.domain.User;
 import com.kodilla.stock_trading_platform.domain.Wallet;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
@@ -20,7 +21,7 @@ public interface WalletRepository extends CrudRepository<Wallet, Long> {
     @Override
     Optional<Wallet> findById(Long id);
 
-    Optional<Wallet> findByUser(String login);
+    Optional<Wallet> findByUser(User user);
 
     @Override
     void deleteById(Long walletId);

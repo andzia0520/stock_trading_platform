@@ -1,3 +1,4 @@
+/*
 package com.kodilla.stock_trading_platform.repository;
 
 import com.kodilla.stock_trading_platform.domain.*;
@@ -108,3 +109,4 @@ public class WalletRepositoryTestSuite {
         userRepository.deleteById(user.getId());
     }
 }
+*/
