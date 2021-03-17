@@ -3,6 +3,7 @@ package com.kodilla.stock_trading_platform.webClient.fcs;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/v1/fcsApi")
