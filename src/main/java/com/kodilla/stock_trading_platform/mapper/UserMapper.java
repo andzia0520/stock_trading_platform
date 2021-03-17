@@ -4,9 +4,6 @@ import com.kodilla.stock_trading_platform.domain.User;
 import com.kodilla.stock_trading_platform.domain.UserDto;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 @Component
 public class UserMapper {
     public User mapToUser(final UserDto userDto) {
@@ -22,10 +19,5 @@ public class UserMapper {
                 user.getLogin(),
                 user.getEmail());
     }
-
-    public List<UserDto> mapToUserDtoList(final List<User> usersList) {
-        return usersList.stream()
-                .map(u -> new UserDto(u.getId(), u.getLogin(), u.getEmail()))
-                .collect(Collectors.toList());
-    }
 }
+
