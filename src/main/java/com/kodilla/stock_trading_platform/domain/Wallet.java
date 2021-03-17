@@ -1,6 +1,5 @@
 package com.kodilla.stock_trading_platform.domain;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -29,8 +28,7 @@ public class Wallet {
     @JoinColumn(name = "USER_ID")
     private User user;
 
-    @OneToMany(mappedBy = "wallet",
-            cascade = REMOVE)
+    @OneToMany(mappedBy = "wallet", cascade = REMOVE)
     private List<Transaction> transactionsList;
 
     public Wallet(User user) {
@@ -62,3 +60,4 @@ public class Wallet {
         return result;
     }
 }
+

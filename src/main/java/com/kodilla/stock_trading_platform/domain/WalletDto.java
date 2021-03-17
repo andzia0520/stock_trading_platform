@@ -7,5 +7,10 @@ import lombok.Getter;
 @AllArgsConstructor
 public class WalletDto {
     private long id;
-    private UserDto userDto;
+    private Long userId;
+
+    public WalletDto(Long userId) {
+        this.userId = userId;
+    }
 }
+
