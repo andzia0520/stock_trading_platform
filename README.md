@@ -17,7 +17,9 @@ Project is not uploaded to remote server yet, so user  needs   following:
 3. How to run Project
 
      1. Create Database (MySQL) according to application.properties file
-     2. Run stock_trading_platform\src\main\java\com\kodilla\stock_trading_platform\StockTradingPlatformApplication.java
+     2. Run  
+     - stock_trading_platform\src\test\java\com\kodilla\stock_trading_platform
+     - stock_trading_platform\src\main\java\com\kodilla\stock_trading_platform\StockTradingPlatformApplication.java
      3. Enter  http://localhost:8080/
 
 
