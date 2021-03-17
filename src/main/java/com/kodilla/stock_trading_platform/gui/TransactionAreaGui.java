@@ -19,12 +19,10 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.BigDecimalField;
 import com.vaadin.flow.component.textfield.IntegerField;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Route(value = "tradingArea")
-@PageTitle("Transaction area")
 public class TransactionAreaGui extends VerticalLayout {
 
     @Autowired
@@ -36,31 +34,24 @@ public class TransactionAreaGui extends VerticalLayout {
     @Autowired
     private TransactionController transactionController;
 
-    private Button dashboard;
-    private Button account;
-    private final TextField textFieldCompanyName;
-    private final Button checkSymbolButton;
-    private final Label labelShareSymbol;
-    private final TextField textFieldShareSymbol;
-    private final Label labelPrice;
-    private ComboBox<TransactionType> transactionType;
-    private TextField textFieldChosenShareSymbol;
-    private BigDecimalField bigDecimalFieldSharePrice;
-    private IntegerField integerFieldQuantity;
-    private DatePicker datePickerTransactionDate;
-    private IntegerField walletId;
-    private Label instructionLabel;
+    private final Button dashboard = new Button("DASHBOARD");
+    private final Button account = new Button("MY ACCOUNT");
+    private final TextField textFieldCompanyName = new TextField("Put company name e.g. Alphabet");
+    private final Label labelShareSymbol = new Label();
+    private final TextField textFieldShareSymbol = new TextField("Put share symbol *capital letters");
+    private final Label labelPrice = new Label();
+    private final ComboBox<TransactionType> transactionType = new ComboBox<>("What will you do?");
+    private final BigDecimalField bigDecimalFieldSharePrice = new BigDecimalField("Current price");
+    private final IntegerField integerFieldQuantity = new IntegerField("Put shares quantity");
+    private final DatePicker datePickerTransactionDate = new DatePicker("Date of transaction");
+    private final IntegerField walletId = new IntegerField("Put your wallet Id");
 
-    private Button confirmButton;
-    private Label confirmed;
-    private Label fullFill;
-
-    private Button deleteTransactions;
+    private final Label confirmed = new Label("Action done");
+    private final Label fullFill = new Label("You have to full fill all data and check if wallet ID is correct");
+    private final Label emptyWalletLabel = new Label("Please check if you've put correct wallet ID, " +
+            "if YES your wallet was empty ");
 
     public TransactionAreaGui() {
-
-        dashboard = new Button("DASHBOARD");
-        account = new Button("MY ACCOUNT");
 
         dashboard.addClickListener(e -> dashboard.getUI().ifPresent(ui ->
                 ui.navigate("")));
@@ -78,63 +69,43 @@ public class TransactionAreaGui extends VerticalLayout {
         header.expand(title);
         header.setVerticalComponentAlignment(FlexComponent.Alignment.STRETCH);
 
-        textFieldCompanyName = new TextField("Put full company name");
-        checkSymbolButton = new Button("Show share symbol", new Icon(VaadinIcon.TRENDING_UP));
-        labelShareSymbol = new Label();
-        textFieldShareSymbol = new TextField("Put share symbol *capital letters");
-        Button checkPriceButton = new Button("Check price", new Icon(VaadinIcon.DOLLAR));
-        labelPrice = new Label();
-
-        instructionLabel = new Label("Before you confirm transaction, please check current price - put share symbol in CAPITAL LETTERS and press <Check price> !!!");
-
-        deleteTransactions = new Button("SELL ALL");
-        transactionType = new ComboBox("What will you do?");
         transactionType.setItems(TransactionType.values());
 
-        textFieldChosenShareSymbol = new TextField("Put share symbol");
+        Button checkSymbolButton = new Button("Show share symbol", new Icon(VaadinIcon.TRENDING_UP));
+        checkSymbolButton.addClickListener(e -> checkShareSymbol());
 
-        bigDecimalFieldSharePrice = new BigDecimalField("Current price");
+        Button checkPriceButton = new Button("Check price", new Icon(VaadinIcon.DOLLAR));
+        checkPriceButton.addClickListener(e -> checkSharePrice());
 
-        integerFieldQuantity = new IntegerField("Put shares quantity");
-
-        datePickerTransactionDate = new DatePicker("Date of transaction");
-
-        walletId = new IntegerField("Put your wallet Id");
-
-        confirmButton = new Button("CONFIRM");
-
-        confirmed = new Label("Transaction confirmed");
-        fullFill = new Label("You have to full fill all data and check if Wallet ID is correct");
+        Button confirmButton = new Button("CONFIRM");
         confirmButton.addClickListener(e -> save());
 
-        checkSymbolButton.addClickListener(e -> {
-            labelShareSymbol.setText("Share symbol of " + textFieldCompanyName.getValue() + " is " + fcsController.getShareSymbol(textFieldCompanyName.getValue()));
-        });
-
-        checkPriceButton.addClickListener(e -> {
-            labelPrice.setText(finnhubController.getSharePrice(textFieldShareSymbol.getValue()).toString());
-        });
-
-        deleteTransactions.addClickListener(e -> deleteAll());
+        Button deleteTransactionsButton = new Button("SELL ALL");
+        deleteTransactionsButton.addClickListener(e -> deleteAll());
 
         VerticalLayout firstRow = new VerticalLayout(textFieldCompanyName, checkSymbolButton, labelShareSymbol);
         VerticalLayout secondRow = new VerticalLayout(textFieldShareSymbol, checkPriceButton, labelPrice);
+        HorizontalLayout h1 = new HorizontalLayout(firstRow, secondRow);
 
-        HorizontalLayout f = new HorizontalLayout(firstRow, secondRow);
-
-        HorizontalLayout thirdRow = new HorizontalLayout(transactionType, textFieldChosenShareSymbol, bigDecimalFieldSharePrice,
-                integerFieldQuantity, datePickerTransactionDate, walletId, confirmButton, deleteTransactions);
+        TextField textFieldChosenShareSymbol = new TextField("Put share symbol");
+        HorizontalLayout transactionRow = new HorizontalLayout(transactionType, textFieldChosenShareSymbol, bigDecimalFieldSharePrice,
+                integerFieldQuantity, datePickerTransactionDate, walletId, confirmButton, deleteTransactionsButton);
 
         title.setWidthFull();
-        thirdRow.setSizeFull();
-        thirdRow.setAlignItems(Alignment.CENTER);
+        transactionRow.setSizeFull();
+        transactionRow.setAlignItems(Alignment.CENTER);
 
-        add(naviButtons, title, f, instructionLabel, thirdRow);
+        Label instructionLabel = new Label("Before you confirm transaction, please check current price - put share symbol in CAPITAL LETTERS and press <Check price> !!!");
+        add(naviButtons, title, h1, instructionLabel, transactionRow);
 
     }
 
-    private void deleteAll() {
-        transactionController.deleteTransactions(Long.valueOf(walletId.getValue()));
+    private void checkShareSymbol() {
+        labelShareSymbol.setText("Share symbol of " + textFieldCompanyName.getValue() + " is " + fcsController.getShareSymbol(textFieldCompanyName.getValue()));
+    }
+
+    private void checkSharePrice() {
+        labelPrice.setText(finnhubController.getSharePrice(textFieldShareSymbol.getValue()).toString());
     }
 
     private void save() {
@@ -145,6 +116,15 @@ public class TransactionAreaGui extends VerticalLayout {
             add(confirmed);
         } catch (Exception e) {
             add(fullFill);
+        }
+    }
+
+    private void deleteAll() {
+        try {
+            transactionController.deleteTransactions(Long.valueOf(walletId.getValue()));
+            add(confirmed);
+        } catch (Exception e) {
+            add(emptyWalletLabel);
         }
     }
 }

@@ -8,6 +8,7 @@ import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -43,6 +44,11 @@ public class TransactionController {
     @RequestMapping(method = RequestMethod.GET, value = "/transactions/{walletId, shareSymbol}")
     public List<TransactionDto> getTransactionByShareSymbol(@PathVariable Long walletId, String shareSymbol) {
         return transactionMapper.mapToTransactionDtoList(transactionDbService.getTransactionByWalletIdAndShareSymbol(walletId, shareSymbol));
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/transactions/{walletId, transactionDate}")
+    public List<TransactionDto> getTransactionByTransactionDate(@PathVariable Long walletId, LocalDate transactionDate) {
+        return transactionMapper.mapToTransactionDtoList(transactionDbService.getTransactionByWalletIdAndTransactionDate(walletId, transactionDate));
     }
 
 

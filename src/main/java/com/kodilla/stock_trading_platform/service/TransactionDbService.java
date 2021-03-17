@@ -6,6 +6,7 @@ import com.kodilla.stock_trading_platform.repository.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,6 +38,10 @@ public class TransactionDbService {
 
     public List<Transaction> getTransactionByWalletIdAndShareSymbol(final long walletId, final String shareSymbol) {
         return transactionRepository.findAllByWalletIdAndShareSymbol(walletId, shareSymbol);
+    }
+
+    public List<Transaction> getTransactionByWalletIdAndTransactionDate(final long walletId, final LocalDate transactionDate) {
+        return transactionRepository.findAllByWalletIdAndTransactionDate(walletId, transactionDate);
     }
 
     public void deleteTransactions(final long walletId) {

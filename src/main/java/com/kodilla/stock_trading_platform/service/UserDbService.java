@@ -2,12 +2,9 @@ package com.kodilla.stock_trading_platform.service;
 
 import com.kodilla.stock_trading_platform.domain.User;
 import com.kodilla.stock_trading_platform.repository.UserRepository;
-
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class UserDbService {

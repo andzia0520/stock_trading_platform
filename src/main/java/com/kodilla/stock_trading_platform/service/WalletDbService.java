@@ -29,20 +29,20 @@ public class WalletDbService {
     }
 
     public Wallet saveWallet(final Wallet wallet) throws WalletExsistsException {
-        //if (!walletRepository.findByUser(wallet.getUser().getId()).isPresent()) {
-        return walletRepository.save(wallet);
-        //} else {
-        //  throw new WalletExsistsException("Wallet for user with given id already exists, " +
-        //         "please check your wallet id");
-    }
-    // }
-
-    public void deleteWallet(final long walletId) throws WalletNotEmptyException {
-        if (transactionRepository.findAllByWalletId(walletId).isEmpty()) {
-            walletRepository.deleteById(walletId);
+        if (!walletRepository.findByUser(wallet.getUser()).isPresent()) {
+            return walletRepository.save(wallet);
         } else {
-            throw new WalletNotEmptyException("Please sell all shares before you delete your Wallet");
+            throw new WalletExsistsException("Wallet for user with given id already exists, " +
+                    "please check your wallet id");
         }
     }
-}
+
+        public void deleteWallet ( final long walletId) throws WalletNotEmptyException {
+            if (transactionRepository.findAllByWalletId(walletId).isEmpty()) {
+                walletRepository.deleteById(walletId);
+            } else {
+                throw new WalletNotEmptyException("Please sell all shares before you delete your Wallet");
+            }
+        }
+    }
 

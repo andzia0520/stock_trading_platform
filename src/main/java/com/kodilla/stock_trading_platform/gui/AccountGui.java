@@ -8,9 +8,6 @@ import com.kodilla.stock_trading_platform.domain.TransactionType;
 import com.kodilla.stock_trading_platform.domain.UserDto;
 import com.kodilla.stock_trading_platform.domain.WalletDto;
 import com.kodilla.stock_trading_platform.mapper.UserMapper;
-import com.kodilla.stock_trading_platform.service.UserAlreadyExistException;
-import com.kodilla.stock_trading_platform.service.WalletExsistsException;
-import com.kodilla.stock_trading_platform.service.WalletNotEmptyException;
 import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
@@ -23,13 +20,12 @@ import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.IntegerField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.value.ValueChangeMode;
-import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.LocalDate;
+
 @Route(value = "account")
-@PageTitle("My account")
 public class AccountGui extends VerticalLayout {
     @Autowired
     private UserController userController;
@@ -43,54 +39,45 @@ public class AccountGui extends VerticalLayout {
     @Autowired
     private TransactionController transactionController;
 
-    private Button dashboard;
-    private Button tradingArea;
-    private TextField textFieldLogin;
-    private EmailField emailField;
-    private Button createButton;
-    private Label noLoginLabel;
-    private Label noEmailLabel;
-    private Label alreadyRegisteredLabel;
-    private Label createdLabel;
-    private Button userIdButton;
-    private Label idLabel;
+    private final Button dashboard = new Button("DASHBOARD");
+    private final Button tradingArea = new Button("TRADING AREA");
 
-    private Button updateButton;
-    private Label updateLabel;
-    private Button deleteButton;
-    private Label deleteLabel;
-    private TextField textFieldNewLogin;
-    private EmailField emailFieldNewEmail;
-    private IntegerField userIdField;
+    private final TextField textFieldLogin = new TextField("*Put your login");
+    private final EmailField emailField = new EmailField("*Put your Email");
 
-    private Button createWalletButton;
-    private Button deleteWalletButton;
-    private Button showWalletIdButton;
-    private Button showMyWalletButton;
-    private Label walletIdLabel;
-    private IntegerField walletIdField;
-    private Label walletNotEmpty;
-    private Label walletCreatedLabel;
+    private final Label createdLabel = new Label("Your account has been created");
+    private final Label alreadyRegisteredLabel = new Label(" and check if there is ID for your Email - press <Show my ID>");
+    private final Label idLabel = new Label();
+    private final Label userNotFoundLabel = new Label("Please put correct email to check your ID");
+    private final TextField textFieldNewLogin = new TextField("Put new login");
+    private final EmailField emailFieldNewEmail = new EmailField("Put new Email");
+    private final IntegerField userIdField = new IntegerField("Put your id");
+    private final Label updateLabel = new Label("Your data has been updated");
+    private final Label deleteLabel = new Label("Account deleted");
+    private final Label idMissingLabel = new Label("You put wrong user ID or you don't have wallet yet");
+    private final Label deleteUserNotPossibleLabel = new Label("You didn't put correct user ID or your wallet isn't empty");
+    private final Label walletCreatedLabel = new Label("Wallet created");
+    private final Label walletNotCreatedLabel = new Label("You didn't put or put wrong user id ");
+    private final Label walletIdNotPresentLabel = new Label("You didn't put or put wrong wallet id ");
+    private final Label walletNotEmpty = new Label("You put wrong wallet ID or your ID isn't empty");
+    private final Label walletIdLabel = new Label();
+    private final IntegerField walletIdField = new IntegerField("Put your wallet ID");
+    private final Label fullFill = new Label("You have to full fill all data");
 
-  /*  private Transaction transaction;
-    private Binder<Transaction> binder = new Binder<>(Transaction.class);*/
-
-    private Grid grid = new Grid<>(TransactionDto.class);
-    private TextField transactionTypeFilter = new TextField();
-    private TextField shareSymbolFilter = new TextField();
+    private final Grid<TransactionDto> grid = new Grid<>(TransactionDto.class);
+    private final TextField transactionTypeFilter = new TextField();
+    private final TextField shareSymbolFilter = new TextField();
+    private final TextField transactionDateFilter = new TextField();
 
     public AccountGui() {
-
-        dashboard = new Button("DASHBOARD");
-        tradingArea = new Button("TRADING AREA");
 
         dashboard.addClickListener(e -> dashboard.getUI().ifPresent(ui ->
                 ui.navigate("")));
 
         tradingArea.addClickListener(e -> tradingArea.getUI().ifPresent(ui ->
                 ui.navigate("tradingArea")));
-        HorizontalLayout naviButtons = new HorizontalLayout(dashboard, tradingArea);
 
+        HorizontalLayout navigationButtons = new HorizontalLayout(dashboard, tradingArea);
         H1 title = new H1("My account");
         title.addClassName("logo");
 
@@ -99,32 +86,6 @@ public class AccountGui extends VerticalLayout {
         header.setWidth("100%");
         header.expand(title);
         header.setVerticalComponentAlignment(FlexComponent.Alignment.STRETCH);
-
-        textFieldLogin = new TextField("*Put your login");
-        emailField = new EmailField("*Put your Email");
-        createButton = new Button("Create account");
-        createdLabel = new Label("Your account has been created");
-        userIdButton = new Button("Show my id");
-        idLabel = new Label();
-        alreadyRegisteredLabel = new Label("You have already account on our platform, " +
-                "please put your ID to continue");
-
-        textFieldNewLogin = new TextField("Put new login");
-        emailFieldNewEmail = new EmailField("Put new Email");
-        userIdField = new IntegerField("Put your id");
-        updateButton = new Button("Update my data");
-        updateLabel = new Label("Your data has been updated");
-        deleteButton = new Button("Delete my account");
-        deleteLabel = new Label("Account deleted");
-
-        createWalletButton = new Button("Create wallet");
-        walletCreatedLabel = new Label("Wallet created");
-        showWalletIdButton = new Button("Show my wallet ID");
-        deleteWalletButton = new Button("delete my wallet");
-        walletIdLabel = new Label();
-        walletIdField = new IntegerField("Put your wallet ID");
-        walletNotEmpty = new Label("Please sell all shares before you delete your Wallet");
-        showMyWalletButton = new Button("Show Wallet");
 
         transactionTypeFilter.setPlaceholder("Filter by transaction type");
         transactionTypeFilter.setClearButtonVisible(true);
@@ -136,138 +97,124 @@ public class AccountGui extends VerticalLayout {
         shareSymbolFilter.setValueChangeMode(ValueChangeMode.EAGER);
         shareSymbolFilter.addValueChangeListener(e -> updateByShareSymbol());
 
+        transactionDateFilter.setPlaceholder("Filter by date");
+        transactionDateFilter.setClearButtonVisible(true);
+        transactionDateFilter.setValueChangeMode(ValueChangeMode.EAGER);
+        transactionDateFilter.addValueChangeListener(e -> updateByDate());
+
         grid.removeColumnByKey("id");
         grid.removeColumnByKey("walletId");
-        //grid.setColumns("id", "transactionType", "shareSymbol", "price", "quantity", "transactionDate", "wallet");
         setSizeFull();
 
+        Button createButton = new Button("Create account");
+        createButton.addClickListener(e -> createUser());
 
-        createButton.addClickListener(e -> {
-            try {
-                createUser();
-            } catch (Exception reg) {
-                add(alreadyRegisteredLabel);
-            }
-        });
+        Button userIdButton = new Button("Show my id");
+        userIdButton.addClickListener(e -> getUserId());
 
-        userIdButton.addClickListener(e -> {
-            try {
-                getUserId();
-            } catch (NotFoundException notFoundException) {
-                notFoundException.printStackTrace();
-            }
-        });
+        Button updateButton = new Button("Update my data");
+        updateButton.addClickListener(e -> updateUser());
 
-        updateButton.addClickListener(e -> {
-            try {
-                updateUser();
-            } catch (NotFoundException notFoundException) {
-                notFoundException.printStackTrace();
-            }
-        });
-
-        deleteButton.addClickListener(e -> deleteUser());
-
-        createWalletButton.addClickListener(e -> {
-            try {
-                createWallet();
-            } catch (WalletExsistsException | NotFoundException walletExsistsException) {
-                walletExsistsException.printStackTrace();
-            }
-        });
-
-
-        deleteWalletButton.addClickListener(e -> {
-            try {
+        Button deleteButton = new Button("Delete my account");
+        deleteButton.addClickListener(e -> {
                 deleteWallet();
-            } catch (WalletNotEmptyException walletNotEmptyException) {
-                add(walletNotEmpty);
-            }
-        });
-        // try {
-
-        // } catch (WalletNotEmptyException walletNotEmptyException) {
-        //   walletNotEmptyException.printStackTrace();
-
-        //});
-
-
-        showWalletIdButton.addClickListener(e -> {
-            try {
-                getWalletId();
-            } catch (NotFoundException notFoundException) {
-                notFoundException.printStackTrace();
-            }
+                deleteUser();
         });
 
+        Button createWalletButton = new Button("Create wallet");
+        createWalletButton.addClickListener(e -> createWallet());
+
+        Button showWalletIdButton = new Button("Show my wallet ID");
+        showWalletIdButton.addClickListener(e -> getWalletId());
+
+        Button showMyWalletButton = new Button("Show Wallet");
         showMyWalletButton.addClickListener(e -> showWallet());
 
-        HorizontalLayout register = new HorizontalLayout(textFieldLogin, emailField, createButton);
-        HorizontalLayout id = new HorizontalLayout(userIdButton, idLabel);
+        Button deleteWalletButton = new Button("Delete my wallet");
+        deleteWalletButton.addClickListener(e -> deleteWallet());
+
+        HorizontalLayout registerData = new HorizontalLayout(textFieldLogin, emailField, createButton);
+        HorizontalLayout idIssues = new HorizontalLayout(userIdButton, idLabel);
         HorizontalLayout newData = new HorizontalLayout(userIdField, textFieldNewLogin, emailFieldNewEmail);
         HorizontalLayout actionButtons = new HorizontalLayout(updateButton, deleteButton);
-        HorizontalLayout walletIssues = new HorizontalLayout(createWalletButton, showWalletIdButton, walletIdLabel, walletIdField, showMyWalletButton);
-        HorizontalLayout filters = new HorizontalLayout(transactionTypeFilter, shareSymbolFilter);
+        HorizontalLayout walletIssues = new HorizontalLayout(createWalletButton, showWalletIdButton, walletIdLabel, walletIdField, showMyWalletButton, deleteWalletButton);
+        HorizontalLayout filters = new HorizontalLayout(transactionTypeFilter, shareSymbolFilter, transactionDateFilter);
 
-        add(naviButtons, title, register, id, newData, actionButtons, walletIssues, filters, grid);
+        add(navigationButtons, title, registerData, idIssues, newData, actionButtons, walletIssues, filters, grid);
     }
 
-
-
-    private void deleteWallet() throws WalletNotEmptyException {//throws WalletNotEmptyException {
-        //try {
-        walletController.deleteWallet(Long.valueOf(walletIdField.getValue()));
-        //} catch (Exception e ) {
-        //   throw new WalletNotEmptyException("Please sell all shares before you delete your Wallet");
-        // }
+    private void createUser() {
+        try {
+            userController.createUser(new UserDto(textFieldLogin.getValue(), emailField.getValue()));
+            add(createdLabel);
+        } catch (Exception e) {
+            add(fullFill);
+            add(alreadyRegisteredLabel);
+        }
     }
 
-    private void getWalletId() throws NotFoundException {
-        WalletDto walletDto = walletController.getWalletByUser(userMapper.mapToUser(userController.getUser(Long.valueOf(userIdField.getValue()))));
-        walletIdLabel.setText(String.valueOf(walletDto.getId()));
+    private void getUserId()  {
+        try {
+            UserDto userDto = userController.getUserByEmail(String.valueOf(emailField.getValue()));
+            idLabel.setText(String.valueOf(userDto.getId()));
+        } catch (Exception e) {
+            add(userNotFoundLabel);
+        }
     }
 
-    private void getUserId() throws NotFoundException {
-        UserDto userDto = userController.getUserByEmail(String.valueOf(emailField.getValue()));
-        idLabel.setText(String.valueOf(userDto.getId()));
-    }
-
-    private void createUser() throws UserAlreadyExistException {//throws UserAlreadyExistException {
-        //try {
-        userController.createUser(new UserDto(textFieldLogin.getValue(), emailField.getValue()));
-        add(createdLabel);
-        // } catch (Exception e) {
-        //throw new UserAlreadyExistException(alreadyRegisteredLabel.toString());
-        // }
-
-    }
-
-    private void updateUser() throws NotFoundException {
-        userController.updateUser(new UserDto(userIdField.getValue(), textFieldNewLogin.getValue(), emailFieldNewEmail.getValue()));
-        add(updateLabel);
+    private void updateUser() {
+        try {
+            userController.updateUser(new UserDto(userIdField.getValue(), textFieldNewLogin.getValue(), emailFieldNewEmail.getValue()));
+            add(updateLabel);
+        } catch (Exception e) {
+            add(fullFill);
+        }
     }
 
     private void deleteUser() {
-        userController.deleteUser(Long.valueOf(userIdField.getValue()));
-        add(deleteLabel);
+        try {
+            deleteWallet();
+            userController.deleteUser(Long.valueOf(userIdField.getValue()));
+            add(deleteLabel);
+        } catch(Exception e) {
+            add(deleteUserNotPossibleLabel);
+        }
     }
 
-    private void createWallet() throws WalletExsistsException, NotFoundException {//throws WalletExsistsException {
-        //try {
-        walletController.createWallet(new WalletDto(Long.valueOf(userIdField.getValue())));
-        add(walletCreatedLabel);
-        // } catch (WalletExsistsException w) {
-        //    throw new WalletExsistsException("Wallet for user with given id already exists, " +
-        //                  "please check your wallet id");
-        // }
+    private void createWallet()  {
+        try {
+            walletController.createWallet(new WalletDto(Long.valueOf(userIdField.getValue())));
+            add(walletCreatedLabel);
+        } catch (Exception e) {
+            add(walletNotCreatedLabel);
+        }
     }
 
+    private void getWalletId()  {
+        try {
+            WalletDto walletDto = walletController.getWalletByUser(userMapper.mapToUser(userController.getUser(Long.valueOf(userIdField.getValue()))));
+            walletIdLabel.setText(String.valueOf(walletDto.getId()));
+        } catch (Exception e) {
+            add(idMissingLabel);
+        }
+    }
 
     private void showWallet() {
-        transactionController.getTransactionsByWalletId(Long.valueOf(walletIdField.getValue()));
-        refresh();
+        try {
+            transactionController.getTransactionsByWalletId(Long.valueOf(walletIdField.getValue()));
+            refresh();
+        } catch (Exception e) {
+            add(walletIdNotPresentLabel);
+        }
     }
 
+    private void deleteWallet()  {
+        try {
+            walletController.deleteWallet(Long.valueOf(walletIdField.getValue()));
+        } catch (Exception e) {
+            add(walletNotEmpty);
+        }
+    }
 
     private void updateByType() {
         grid.setItems(transactionController.getTransactionByType(Long.valueOf(walletIdField.getValue()), TransactionType.valueOf(transactionTypeFilter.getValue())));
@@ -275,7 +222,10 @@ public class AccountGui extends VerticalLayout {
 
     private void updateByShareSymbol() {
         grid.setItems(transactionController.getTransactionByShareSymbol(Long.valueOf(walletIdField.getValue()), shareSymbolFilter.getValue()));
+    }
 
+    private void updateByDate() {
+        grid.setItems(transactionController.getTransactionByTransactionDate(Long.valueOf(walletIdField.getValue()), LocalDate.parse(transactionDateFilter.getValue())));
     }
 
     private void refresh() {
