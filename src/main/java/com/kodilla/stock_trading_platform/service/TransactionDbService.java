@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class TransactionDbService {
@@ -16,16 +15,8 @@ public class TransactionDbService {
     @Autowired
     private TransactionRepository transactionRepository;
 
-    public Transaction saveTransaction(final Transaction transaction) {
-        return transactionRepository.save(transaction);
-    }
-
-    public Optional<Transaction> getTransactionById(final long transactionId) {
-        return transactionRepository.findById(transactionId);
-    }
-
-    public List<Transaction> getTransactions() {
-        return transactionRepository.findAll();
+    public void saveTransaction(final Transaction transaction) {
+        transactionRepository.save(transaction);
     }
 
     public List<Transaction> getTransactionByWalletId(final long walletId) {

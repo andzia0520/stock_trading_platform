@@ -1,10 +1,7 @@
 package com.kodilla.stock_trading_platform.webClient.fcs;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -13,8 +10,8 @@ public class FcsController {
 
     private final FcsService fcsService;
 
-    @RequestMapping(method = RequestMethod.GET, value = "getShareSymbol")
-    public ShareFromFcsDto getShareSymbol(@RequestParam String companyName) {
+    @RequestMapping(method = RequestMethod.GET, value = "/shareSymbol/{companyName}")
+    public ShareFromFcsDto getShareSymbol(@PathVariable String companyName) {
         return fcsService.getShareSymbolByName(companyName);
     }
 }

@@ -38,7 +38,7 @@ public class TransactionController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/transactions/{walletId, transactionType}")
     public List<TransactionDto> getTransactionByType(@PathVariable Long walletId, TransactionType transactionType) {
-        return transactionMapper.mapToTransactionDtoList(transactionDbService.getTransactionByWalletIdAndType(walletId,transactionType));
+        return transactionMapper.mapToTransactionDtoList(transactionDbService.getTransactionByWalletIdAndType(walletId, transactionType));
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/transactions/{walletId, shareSymbol}")
@@ -50,7 +50,4 @@ public class TransactionController {
     public List<TransactionDto> getTransactionByTransactionDate(@PathVariable Long walletId, LocalDate transactionDate) {
         return transactionMapper.mapToTransactionDtoList(transactionDbService.getTransactionByWalletIdAndTransactionDate(walletId, transactionDate));
     }
-
-
 }
-

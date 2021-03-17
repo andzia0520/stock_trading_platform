@@ -27,24 +27,6 @@ public class TransactionMapper {
                 walletDbService.getWalletById(transactionDto.getWalletId()));
     }
 
-    public TransactionDto mapToTransactionDto(final Transaction transaction) {
-        return new TransactionDto(
-                transaction.getId(),
-                transaction.getTransactionType(),
-                transaction.getShareSymbol(),
-                transaction.getPrice(),
-                transaction.getQuantity(),
-                transaction.getTransactionDate(),
-                transaction.getWallet().getId());
-    }
-
-    public List<Transaction> mapToTransactionList(final List<TransactionDto> transactionDtoList) {
-        return transactionDtoList.stream()
-                .map(transactionDto -> new Transaction(transactionDto.getId(), transactionDto.getTransactionType(),
-                        transactionDto.getShareSymbol(), transactionDto.getPrice(), transactionDto.getQuantity(), transactionDto.getTransactionDate()))
-                .collect(Collectors.toList());
-    }
-
     public List<TransactionDto> mapToTransactionDtoList(final List<Transaction> transactionList) {
         return transactionList.stream()
                 .map(transaction -> new TransactionDto(transaction.getId(), transaction.getTransactionType(),

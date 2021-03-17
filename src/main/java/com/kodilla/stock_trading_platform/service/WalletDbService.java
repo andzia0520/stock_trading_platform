@@ -8,8 +8,6 @@ import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 public class WalletDbService {
     @Autowired
@@ -37,12 +35,12 @@ public class WalletDbService {
         }
     }
 
-        public void deleteWallet ( final long walletId) throws WalletNotEmptyException {
-            if (transactionRepository.findAllByWalletId(walletId).isEmpty()) {
-                walletRepository.deleteById(walletId);
-            } else {
-                throw new WalletNotEmptyException("Please sell all shares before you delete your Wallet");
-            }
+    public void deleteWallet(final long walletId) throws WalletNotEmptyException {
+        if (transactionRepository.findAllByWalletId(walletId).isEmpty()) {
+            walletRepository.deleteById(walletId);
+        } else {
+            throw new WalletNotEmptyException("Please sell all shares before you delete your Wallet");
         }
     }
+}
 

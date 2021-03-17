@@ -29,9 +29,10 @@ public class WalletController {
     public void deleteWallet(@PathVariable Long walletId) throws WalletNotEmptyException {
         walletDbService.deleteWallet(walletId);
     }
+
     @RequestMapping(method = RequestMethod.GET, value = "/wallets/{walletId}")
-    public WalletDto getWallet(@PathVariable Long id) throws NotFoundException {
-        return walletMapper.mapToWalletDto(walletDbService.getWalletById(id));
+    public WalletDto getWallet(@PathVariable Long walletId) throws NotFoundException {
+        return walletMapper.mapToWalletDto(walletDbService.getWalletById(walletId));
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/wallets/{user}")

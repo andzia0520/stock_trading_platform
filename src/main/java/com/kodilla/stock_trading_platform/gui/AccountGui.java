@@ -57,7 +57,7 @@ public class AccountGui extends VerticalLayout {
     private final Label idMissingLabel = new Label("You put wrong user ID or you don't have wallet yet");
     private final Label deleteUserNotPossibleLabel = new Label("You didn't put correct user ID or your wallet isn't empty");
     private final Label walletCreatedLabel = new Label("Wallet created");
-    private final Label walletNotCreatedLabel = new Label("You didn't put or put wrong user id ");
+    private final Label walletNotCreatedLabel = new Label("You didn't put or put wrong user id or you already have wallet");
     private final Label walletIdNotPresentLabel = new Label("You didn't put or put wrong wallet id ");
     private final Label walletNotEmpty = new Label("You put wrong wallet ID or your ID isn't empty");
     private final Label walletIdLabel = new Label();
@@ -117,8 +117,8 @@ public class AccountGui extends VerticalLayout {
 
         Button deleteButton = new Button("Delete my account");
         deleteButton.addClickListener(e -> {
-                deleteWallet();
-                deleteUser();
+            deleteWallet();
+            deleteUser();
         });
 
         Button createWalletButton = new Button("Create wallet");
@@ -153,7 +153,7 @@ public class AccountGui extends VerticalLayout {
         }
     }
 
-    private void getUserId()  {
+    private void getUserId() {
         try {
             UserDto userDto = userController.getUserByEmail(String.valueOf(emailField.getValue()));
             idLabel.setText(String.valueOf(userDto.getId()));
@@ -176,12 +176,12 @@ public class AccountGui extends VerticalLayout {
             deleteWallet();
             userController.deleteUser(Long.valueOf(userIdField.getValue()));
             add(deleteLabel);
-        } catch(Exception e) {
+        } catch (Exception e) {
             add(deleteUserNotPossibleLabel);
         }
     }
 
-    private void createWallet()  {
+    private void createWallet() {
         try {
             walletController.createWallet(new WalletDto(Long.valueOf(userIdField.getValue())));
             add(walletCreatedLabel);
@@ -190,7 +190,7 @@ public class AccountGui extends VerticalLayout {
         }
     }
 
-    private void getWalletId()  {
+    private void getWalletId() {
         try {
             WalletDto walletDto = walletController.getWalletByUser(userMapper.mapToUser(userController.getUser(Long.valueOf(userIdField.getValue()))));
             walletIdLabel.setText(String.valueOf(walletDto.getId()));
@@ -208,7 +208,7 @@ public class AccountGui extends VerticalLayout {
         }
     }
 
-    private void deleteWallet()  {
+    private void deleteWallet() {
         try {
             walletController.deleteWallet(Long.valueOf(walletIdField.getValue()));
         } catch (Exception e) {

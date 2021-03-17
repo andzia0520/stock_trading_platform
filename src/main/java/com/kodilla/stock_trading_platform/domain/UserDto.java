@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 public class UserDto {
+
     private long id;
     private String login;
     private String email;
@@ -16,5 +17,4 @@ public class UserDto {
         this.login = login;
         this.email = email;
     }
-
 }

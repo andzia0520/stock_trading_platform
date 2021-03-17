@@ -29,7 +29,6 @@ public class TransactionDto {
         this.price = price;
         this.quantity = quantity;
         this.transactionDate = transactionDate;
-
     }
 }
 

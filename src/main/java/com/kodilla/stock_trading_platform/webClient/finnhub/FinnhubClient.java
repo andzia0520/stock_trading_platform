@@ -15,14 +15,14 @@ public class FinnhubClient {
 
     public ShareFromFinnhubDto getPriceForShare(String shareSymbol) {
         FinnhubDto finnhubDto = callGetMethod("/quote?symbol={shareSymbol}&token=", FinnhubDto.class, shareSymbol);
-    return ShareFromFinnhubDto.builder()
-            .sharePrice(finnhubDto.getC())
-            .build();
+        return ShareFromFinnhubDto.builder()
+                .sharePrice(finnhubDto.getC())
+                .build();
     }
 
     private <T> T callGetMethod(String url, Class<T> responseType, Object... objects) {
         return restTemplate.getForObject(finnhubConfig.getFinnhubApiEndpoint()
                         + url + finnhubConfig.getFinnhubApiToken(),
-                responseType, objects );
+                responseType, objects);
     }
 }
