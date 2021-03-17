@@ -11,6 +11,7 @@ import java.util.Optional;
 
 @Service
 public class TransactionDbService {
+
     @Autowired
     private TransactionRepository transactionRepository;
 
@@ -30,11 +31,18 @@ public class TransactionDbService {
         return transactionRepository.findAllByWalletId(walletId);
     }
 
-    public List<Transaction> getTransactionByType(final TransactionType transactionType) {
-        return transactionRepository.findAllByTransactionType(transactionType);
+    public List<Transaction> getTransactionByWalletIdAndType(final long walletId, final TransactionType transactionType) {
+        return transactionRepository.findAllByWalletIdAndTransactionType(walletId, transactionType);
     }
 
-    public void deleteTransaction(final long transactionId) {
-        transactionRepository.deleteById(transactionId);
+    public List<Transaction> getTransactionByWalletIdAndShareSymbol(final long walletId, final String shareSymbol) {
+        return transactionRepository.findAllByWalletIdAndShareSymbol(walletId, shareSymbol);
+    }
+
+    public void deleteTransactions(final long walletId) {
+        transactionRepository.deleteAllByWalletId(walletId);
     }
 }
+
+
+

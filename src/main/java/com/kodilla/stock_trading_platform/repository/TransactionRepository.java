@@ -8,9 +8,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+
 @Transactional
 @Repository
 public interface TransactionRepository extends CrudRepository<Transaction, Long> {
+
     @Override
     Transaction save(Transaction transaction);
 
@@ -19,11 +21,13 @@ public interface TransactionRepository extends CrudRepository<Transaction, Long>
 
     List<Transaction> findAllByWalletId(Long walletId);
 
-    List<Transaction> findAllByTransactionType(TransactionType transactionType);
+    List<Transaction> findAllByWalletIdAndTransactionType(Long walletId, TransactionType transactionType);
 
-    @Override
-    void deleteById(Long transactionId);
+    List<Transaction> findAllByWalletIdAndShareSymbol(Long walletId, String shareSymbol);
+
+    void deleteAllByWalletId(Long walletId);
 
     @Override
     List<Transaction> findAll();
 }
+

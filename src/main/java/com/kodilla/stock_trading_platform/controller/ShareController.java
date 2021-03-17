@@ -2,7 +2,6 @@ package com.kodilla.stock_trading_platform.controller;
 
 import com.kodilla.stock_trading_platform.domain.ShareDto;
 import com.kodilla.stock_trading_platform.mapper.ShareMapper;
-import com.kodilla.stock_trading_platform.service.ShareDbService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
