@@ -30,12 +30,12 @@ public class TransactionMapper {
     public TransactionDto mapToTransactionDto(final Transaction transaction) {
         return new TransactionDto(
                 transaction.getId(),
-                transaction.getWallet().getId(),
                 transaction.getTransactionType(),
                 transaction.getShareSymbol(),
                 transaction.getPrice(),
                 transaction.getQuantity(),
-                transaction.getTransactionDate());
+                transaction.getTransactionDate(),
+                transaction.getWallet().getId());
     }
 
     public List<Transaction> mapToTransactionList(final List<TransactionDto> transactionDtoList) {
@@ -47,9 +47,9 @@ public class TransactionMapper {
 
     public List<TransactionDto> mapToTransactionDtoList(final List<Transaction> transactionList) {
         return transactionList.stream()
-                .map(transaction -> new TransactionDto(transaction.getId(), transaction.getWallet().getId(), transaction.getTransactionType(),
+                .map(transaction -> new TransactionDto(transaction.getId(), transaction.getTransactionType(),
                         transaction.getShareSymbol(), transaction.getPrice(), transaction.getQuantity(),
-                        transaction.getTransactionDate()))
+                        transaction.getTransactionDate(), transaction.getWallet().getId()))
                 .collect(Collectors.toList());
     }
 }

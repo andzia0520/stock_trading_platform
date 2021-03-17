@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/v1/user")
+@RequestMapping("/v1")
 public class UserController {
     @Autowired
     private UserDbService userDbService;
@@ -17,29 +17,29 @@ public class UserController {
     @Autowired
     private UserMapper userMapper;
 
-    @RequestMapping(method = RequestMethod.POST, value = "createUser")
+    @RequestMapping(method = RequestMethod.POST, value = "/users")
     public UserDto createUser(@RequestBody UserDto userDto) throws UserAlreadyExistException {
         return userMapper.mapToUserDto((userDbService.saveUser(userMapper.mapToUser(userDto))));
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "getUser")
-    public UserDto getUser(@RequestParam Long userId) throws NotFoundException {
-        return userMapper.mapToUserDto(userDbService.getUserById(userId));
+    @RequestMapping(method = RequestMethod.PUT, value = "/users")
+    public void updateUser(@RequestBody UserDto userDto) throws NotFoundException {
+        userDbService.updateUser(userMapper.mapToUser(userDto));
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "getUserByEmail")
-    public UserDto getUserByEmail(@RequestParam String email) throws NotFoundException {
-        return userMapper.mapToUserDto(userDbService.getUserByEmail(email));
-    }
-
-    @RequestMapping(method = RequestMethod.DELETE, value = "deleteUser")
-    public void deleteUser(@RequestParam Long userId) {
+    @RequestMapping(method = RequestMethod.DELETE, value = "/users/{userId}")
+    public void deleteUser(@PathVariable Long userId) {
         userDbService.deleteById(userId);
     }
 
-    @RequestMapping(method = RequestMethod.PUT, value = "updateUser")
-    public void updateUser(@RequestBody UserDto userDto) throws NotFoundException {
-        userDbService.updateUser(userMapper.mapToUser(userDto));
+    @RequestMapping(method = RequestMethod.GET, value = "/users/{userId}")
+    public UserDto getUser(@PathVariable Long userId) throws NotFoundException {
+        return userMapper.mapToUserDto(userDbService.getUserById(userId));
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/usersByMail/{email}")
+    public UserDto getUserByEmail(@PathVariable String email) throws NotFoundException {
+        return userMapper.mapToUserDto(userDbService.getUserByEmail(email));
     }
 }
 

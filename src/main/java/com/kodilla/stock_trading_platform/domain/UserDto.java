@@ -2,9 +2,11 @@ package com.kodilla.stock_trading_platform.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-@Getter
 @AllArgsConstructor
+@NoArgsConstructor
+@Getter
 public class UserDto {
     private long id;
     private String login;
@@ -14,4 +16,5 @@ public class UserDto {
         this.login = login;
         this.email = email;
     }
+
 }

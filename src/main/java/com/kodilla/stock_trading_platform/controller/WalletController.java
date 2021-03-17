@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/v1/wallet")
+@RequestMapping("/v1")
 public class WalletController {
 
     @Autowired
@@ -20,26 +20,24 @@ public class WalletController {
     @Autowired
     private WalletMapper walletMapper;
 
-    @RequestMapping(method = RequestMethod.POST, value = "createWallet")
+    @RequestMapping(method = RequestMethod.POST, value = "/wallets")
     public WalletDto createWallet(@RequestBody WalletDto walletDto) throws WalletExsistsException, NotFoundException {
         return walletMapper.mapToWalletDto((walletDbService.saveWallet(walletMapper.mapToWallet(walletDto))));
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "getWallet")
-    public WalletDto getWallet(@RequestParam Long id) throws NotFoundException {
+    @RequestMapping(method = RequestMethod.DELETE, value = "/wallets/{walletId}")
+    public void deleteWallet(@PathVariable Long walletId) throws WalletNotEmptyException {
+        walletDbService.deleteWallet(walletId);
+    }
+    @RequestMapping(method = RequestMethod.GET, value = "/wallets/{walletId}")
+    public WalletDto getWallet(@PathVariable Long id) throws NotFoundException {
         return walletMapper.mapToWalletDto(walletDbService.getWalletById(id));
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "getWalletByUser")
-    public WalletDto getWalletByUser(@RequestParam User user) throws NotFoundException {
+    @RequestMapping(method = RequestMethod.GET, value = "/wallets/{user}")
+    public WalletDto getWalletByUser(@PathVariable User user) throws NotFoundException {
         return walletMapper.mapToWalletDto(walletDbService.getWalletByUser(user));
     }
-
-    @RequestMapping(method = RequestMethod.DELETE, value = "deleteWallet")
-    public void deleteWallet(@RequestParam Long walletId) throws WalletNotEmptyException {
-        walletDbService.deleteWallet(walletId);
-    }
-
 }
 
 

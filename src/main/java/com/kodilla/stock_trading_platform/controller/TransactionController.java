@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/v1/transaction")
+@RequestMapping("/v1")
 public class TransactionController {
 
     @Autowired
@@ -20,44 +20,31 @@ public class TransactionController {
     @Autowired
     private TransactionMapper transactionMapper;
 
-    @RequestMapping(method = RequestMethod.POST, value = "createTransaction")
+    @RequestMapping(method = RequestMethod.POST, value = "/transactions")
     public void createTransaction(@RequestBody TransactionDto transactionDto) throws NotFoundException {
         transactionDbService.saveTransaction(transactionMapper.mapToTransaction(transactionDto));
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, value = "deleteTransactions")
-    public void deleteTransactions(@RequestParam long walletId) {
+    @RequestMapping(method = RequestMethod.DELETE, value = "/transactions/{walletId}")
+    public void deleteTransactions(@PathVariable Long walletId) {
         transactionDbService.deleteTransactions(walletId);
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "getTransactions")
-    public List<TransactionDto> getTransactions() {
-        return transactionMapper.mapToTransactionDtoList(transactionDbService.getTransactions());
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value = "getTransactionsByWalletId")
-    public List<TransactionDto> getTransactionsByWalletId(@RequestParam long walletId) {
+    @RequestMapping(method = RequestMethod.GET, value = "/transactions/{walletId}")
+    public List<TransactionDto> getTransactionsByWalletId(@PathVariable Long walletId) {
         return transactionMapper.mapToTransactionDtoList(transactionDbService.getTransactionByWalletId(walletId));
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "getTransactionById")
-    public TransactionDto getTransactionById(@RequestParam long transactionId) throws TransactionNotFoundException {
-        return transactionMapper.mapToTransactionDto(transactionDbService.getTransactionById(transactionId).orElseThrow(TransactionNotFoundException::new));
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value = "getTransactionByType")
-    public List<TransactionDto> getTransactionByType(@RequestParam long walletId, TransactionType transactionType) {
+    @RequestMapping(method = RequestMethod.GET, value = "/transactions/{walletId, transactionType}")
+    public List<TransactionDto> getTransactionByType(@PathVariable Long walletId, TransactionType transactionType) {
         return transactionMapper.mapToTransactionDtoList(transactionDbService.getTransactionByWalletIdAndType(walletId,transactionType));
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "getTransactionByShareSymbol")
-    public List<TransactionDto> getTransactionByShareSymbol(@RequestParam long walletId, String shareSymbol) {
+    @RequestMapping(method = RequestMethod.GET, value = "/transactions/{walletId, shareSymbol}")
+    public List<TransactionDto> getTransactionByShareSymbol(@PathVariable Long walletId, String shareSymbol) {
         return transactionMapper.mapToTransactionDtoList(transactionDbService.getTransactionByWalletIdAndShareSymbol(walletId, shareSymbol));
     }
 
-    @RequestMapping(method = RequestMethod.PUT, value = "updateTransaction")
-    public TransactionDto updateTransaction(@RequestBody TransactionDto transactionDto) throws NotFoundException {
-        return transactionMapper.mapToTransactionDto(transactionDbService.saveTransaction(transactionMapper.mapToTransaction(transactionDto)));
-    }
+
 }
 

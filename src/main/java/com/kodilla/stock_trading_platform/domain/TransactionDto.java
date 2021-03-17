@@ -2,20 +2,22 @@ package com.kodilla.stock_trading_platform.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+@NoArgsConstructor
 @Getter
 @AllArgsConstructor
 public class TransactionDto {
     private long id;
-    private Long walletId;
     private TransactionType transactionType;
     private String shareSymbol;
     private BigDecimal price;
     private int quantity;
     private LocalDate transactionDate;
+    private Long walletId;
 
 
     public TransactionDto(Long walletId, TransactionType transactionType, String shareSymbol, BigDecimal price,
