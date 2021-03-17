@@ -9,4 +9,9 @@ public class UserDto {
     private long id;
     private String login;
     private String email;
+
+    public UserDto(String login, String email) {
+        this.login = login;
+        this.email = email;
+    }
 }

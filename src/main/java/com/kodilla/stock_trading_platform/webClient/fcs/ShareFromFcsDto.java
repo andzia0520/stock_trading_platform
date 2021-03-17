@@ -7,4 +7,9 @@ import lombok.Getter;
 @Builder
 public class ShareFromFcsDto {
     private String shareSymbol;
+
+    @Override
+    public String toString() {
+        return shareSymbol;
+    }
 }

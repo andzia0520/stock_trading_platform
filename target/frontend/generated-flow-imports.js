@@ -1,6 +1,7 @@
 const div = document.createElement('div');
 div.innerHTML = '<custom-style><style include="lumo-color lumo-typography"></style></custom-style>';
 document.head.insertBefore(div.firstElementChild, document.head.firstChild);
+document.documentElement.setAttribute('theme', 'dark');
 
 import '@polymer/iron-icon/iron-icon.js';
 import '@polymer/iron-list/iron-list.js';
